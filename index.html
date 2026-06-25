@@ -7,10 +7,8 @@
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#10B981">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="icon-192x192.png">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,28 +39,54 @@
         }
     </script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Custom Styles */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .modal { display: none; opacity: 0; transition: opacity 0.3s; }
         .modal.active { display: flex; opacity: 1; }
         .modal-content { transform: translateY(50px); transition: transform 0.3s; }
         .modal.active .modal-content { transform: translateY(0); }
+
         .toast { transform: translate(-50%, -100px); opacity: 0; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
         .toast.show { transform: translate(-50%, 20px); opacity: 1; }
-        .currency-radio:checked + div { border-color: #10B981; background-color: #ECFDF5; }
-        .dark .currency-radio:checked + div { border-color: #3B82F6; background-color: rgba(59, 130, 246, 0.1); }
+
+        .currency-radio:checked + div {
+            border-color: #10B981;
+            background-color: #ECFDF5;
+        }
+        .dark .currency-radio:checked + div {
+            border-color: #3B82F6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 flex justify-center w-full h-[100dvh] overflow-hidden transition-colors duration-300 relative">
 
     <div id="authOverlay" class="absolute inset-0 z-[300] bg-slate-100 dark:bg-[#0F172A] flex flex-col items-center justify-center p-6 transition-colors duration-300">
+        
         <button onclick="toggleTheme()" class="absolute top-6 left-6 w-10 h-10 rounded-full flex items-center justify-center border-2 border-black bg-white dark:bg-slate-800 text-slate-800 dark:text-white transition shadow-sm">
             <i id="authThemeIcon" data-lucide="moon" class="w-5 h-5"></i>
         </button>
+
         <div class="w-full max-w-sm p-8 rounded-3xl border-2 border-black bg-white dark:bg-slate-800 shadow-2xl">
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/30 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
@@ -71,6 +95,7 @@
                 <h2 id="authTitle" class="text-2xl font-black text-slate-800 dark:text-white">تسجيل الدخول</h2>
                 <p id="authSubtitle" class="text-sm text-slate-500 mt-2">مرحباً بك مجدداً في مصاريفي</p>
             </div>
+
             <form id="authForm" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold mb-2 text-slate-600 dark:text-slate-300 px-1">البريد الإلكتروني</label>
@@ -86,11 +111,13 @@
                         <input type="password" id="authPassword" required minlength="6" class="w-full border-2 border-black rounded-xl pr-10 pl-4 py-3 text-sm outline-none bg-slate-50 dark:bg-[#020617] text-slate-800 dark:text-white focus:border-emerald-600 dark:focus:border-blue-500 transition-colors" placeholder="6 أحرف على الأقل">
                     </div>
                 </div>
+                
                 <button type="submit" id="authSubmitBtn" class="w-full text-white py-4 rounded-xl font-bold text-base shadow-md mt-6 active:scale-95 transition-transform bg-emerald-700 border-2 border-black dark:border-transparent dark:bg-blue-600 flex justify-center items-center gap-2">
                     <span>دخول</span>
                     <i id="authSpinner" data-lucide="loader-2" class="w-5 h-5 animate-spin hidden"></i>
                 </button>
             </form>
+
             <div class="mt-6 text-center border-t-2 border-black/10 dark:border-slate-700 pt-6">
                 <button type="button" id="toggleAuthModeBtn" class="text-sm font-bold text-slate-500 hover:text-emerald-700 dark:hover:text-blue-400 transition">
                     ليس لديك حساب؟ <span class="text-emerald-700 dark:text-blue-400">إنشاء حساب جديد</span>
@@ -100,6 +127,7 @@
     </div>
 
     <div id="mainAppContainer" class="w-full max-w-md h-full flex flex-col relative shadow-2xl bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-800 dark:text-slate-100 transition-colors duration-300 overflow-hidden border-x-2 border-black hidden">
+        
         <div class="shrink-0 flex flex-col relative z-20">
             <header id="mainHeader" class="relative pt-4 pb-10 px-6 rounded-b-3xl shadow-sm overflow-hidden bg-emerald-700 dark:bg-slate-800 border-b-2 border-black transition-colors duration-300">
                 <div class="flex justify-between items-center mb-4 relative z-10">
@@ -112,8 +140,9 @@
                             <p class="text-[10px] flex items-center gap-1 opacity-80 text-white whitespace-nowrap">تغيير المحفظة <i data-lucide="chevron-down" class="w-3 h-3"></i></p>
                         </div>
                     </div>
+                    
                     <div class="flex gap-2 shrink-0 text-white">
-                        <div id="syncIndicator" class="w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md transition border-2 border-black/20 bg-white/20 text-white">
+                        <div id="syncIndicator" class="w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md transition border-2 border-black/20 bg-white/20 text-white" title="حالة الاتصال">
                             <i id="cloudIcon" data-lucide="cloud" class="w-4 h-4 transition-colors duration-300"></i>
                         </div>
                         <button onclick="openModal('settingsModal')" class="w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md hover:scale-110 transition border-2 border-black/20 bg-white/20">
@@ -124,6 +153,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="text-center relative z-10 text-white">
                     <p class="text-xs font-medium mb-0 opacity-90">الرصيد الحالي</p>
                     <h2 id="totalBalance" class="text-4xl sm:text-5xl font-black tracking-tight font-mono truncate px-4" dir="ltr">0 DA</h2>
@@ -133,14 +163,18 @@
             <div class="px-6 -mt-6 relative z-20 grid grid-cols-2 gap-3">
                 <div class="p-3.5 rounded-2xl shadow-sm border-2 border-black bg-white dark:bg-slate-800 flex flex-col justify-between gap-1 hover:-translate-y-1 transition duration-300">
                     <div class="flex items-center gap-2">
-                        <div class="p-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-black/10 dark:border-transparent"><i data-lucide="arrow-down" class="w-3 h-3"></i></div>
+                        <div class="p-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-black/10 dark:border-transparent">
+                            <i data-lucide="arrow-down" class="w-3 h-3"></i>
+                        </div>
                         <span class="text-[11px] font-bold text-slate-700 dark:text-slate-300">الدخل</span>
                     </div>
                     <span id="totalIncome" class="text-base font-bold font-mono text-emerald-700 dark:text-emerald-400 truncate mt-1" dir="ltr">0 DA</span>
                 </div>
                 <div class="p-3.5 rounded-2xl shadow-sm border-2 border-black bg-white dark:bg-slate-800 flex flex-col justify-between gap-1 hover:-translate-y-1 transition duration-300">
                     <div class="flex items-center gap-2">
-                        <div class="p-1.5 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-black/10 dark:border-transparent"><i data-lucide="arrow-up" class="w-3 h-3"></i></div>
+                        <div class="p-1.5 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-black/10 dark:border-transparent">
+                            <i data-lucide="arrow-up" class="w-3 h-3"></i>
+                        </div>
                         <span class="text-[11px] font-bold text-slate-700 dark:text-slate-300">المصاريف</span>
                     </div>
                     <span id="totalExpense" class="text-base font-bold font-mono text-red-600 dark:text-red-400 truncate mt-1" dir="ltr">0 DA</span>
@@ -149,15 +183,22 @@
         </div>
 
         <main class="px-6 pt-4 flex-grow overflow-y-auto hide-scrollbar relative pb-20">
+            
             <div id="tab-home" class="tab-content active">
-                <div class="flex justify-between items-center mb-4"><h3 class="text-base font-bold">آخر العمليات</h3></div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-base font-bold">آخر العمليات</h3>
+                </div>
+                
                 <div id="emptyTransactionsState" class="text-center py-16 opacity-50 hidden">
                     <div class="w-16 h-16 rounded-full border-2 border-black/20 dark:border-slate-700 mx-auto mb-4 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-400">
                         <i data-lucide="history" class="w-8 h-8"></i>
                     </div>
                     <p class="text-sm mb-4">لا توجد عمليات مسجلة</p>
+                    <button onclick="openAddModal()" class="font-bold text-sm text-emerald-700 dark:text-blue-400 hover:opacity-80">أضف عملية</button>
                 </div>
-                <div id="transactionsList" class="space-y-3 pb-8"></div>
+
+                <div id="transactionsList" class="space-y-3 pb-8">
+                </div>
             </div>
 
             <div id="tab-stats" class="tab-content">
@@ -165,26 +206,42 @@
                     <div class="p-1 rounded-xl border-2 border-black bg-slate-100 dark:bg-slate-900 flex w-full max-w-[300px]">
                         <button onclick="setAnalysisPeriod('month')" id="period-month" class="period-btn flex-1 py-2 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow border border-black/10 dark:border-transparent dark:bg-slate-700 dark:text-white">هذا الشهر</button>
                         <button onclick="setAnalysisPeriod('all')" id="period-all" class="period-btn flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 border border-transparent">الكل</button>
+                        <button onclick="setAnalysisPeriod('custom')" id="period-custom" class="period-btn flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 border border-transparent">محدد</button>
+                    </div>
+                    
+                    <div id="customDateContainer" class="hidden flex gap-2 w-full max-w-[300px]">
+                        <input type="date" id="customStartDate" class="flex-1 p-2 rounded-lg text-xs border-2 border-black outline-none bg-white dark:bg-[#020617] text-slate-800 dark:text-white" onchange="renderStats()">
+                        <input type="date" id="customEndDate" class="flex-1 p-2 rounded-lg text-xs border-2 border-black outline-none bg-white dark:bg-[#020617] text-slate-800 dark:text-white" onchange="renderStats()">
                     </div>
                 </div>
+
                 <div class="mb-4">
+                    <p class="text-[10px] font-bold text-slate-500 mb-2 px-1">تجميع البيانات حسب:</p>
                     <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
-                        <button onclick="setStatsGroup('category')" id="group-category" class="group-btn px-4 py-1.5 text-xs font-bold rounded-full transition bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 border-2 border-black">التصنيفات</button>
-                        <button onclick="setStatsGroup('entity')" id="group-entity" class="group-btn px-4 py-1.5 text-xs font-bold rounded-full transition bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300 border-2 border-black">الجهات/الأشخاص</button>
+                        <button onclick="setStatsGroup('category')" id="group-category" class="group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 border-2 border-black">التصنيفات</button>
+                        <button onclick="setStatsGroup('entity')" id="group-entity" class="group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300 border-2 border-black">الجهات/الأشخاص</button>
+                        <button onclick="setStatsGroup('currency')" id="group-currency" class="group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300 border-2 border-black">عملة الدفع</button>
                     </div>
                 </div>
+
                 <div id="emptyStatsState" class="text-center py-12 opacity-50 hidden">
                     <i data-lucide="pie-chart" class="w-12 h-12 mx-auto mb-4 text-slate-400"></i>
                     <p>لا توجد بيانات للفترة المحددة</p>
                 </div>
+
                 <div id="statsContent" class="pb-8">
                     <div class="mb-8 p-5 rounded-3xl border-2 border-black bg-white dark:bg-slate-800 shadow-sm">
                         <h4 class="text-sm font-bold mb-4">تدفق الأموال</h4>
                         <div class="h-4 w-full rounded-full overflow-hidden flex bg-slate-100 dark:bg-slate-900 border border-black/10 dark:border-transparent">
-                            <div id="incomeBar" class="h-full bg-emerald-600 dark:bg-emerald-400" style="width: 50%;"></div>
-                            <div id="expenseBar" class="h-full bg-red-600 dark:bg-red-400" style="width: 50%;"></div>
+                            <div id="incomeBar" class="h-full transition-all duration-1000 bg-emerald-600 dark:bg-emerald-400" style="width: 50%;"></div>
+                            <div id="expenseBar" class="h-full transition-all duration-1000 bg-red-600 dark:bg-red-400" style="width: 50%;"></div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-[10px] font-bold text-slate-400">
+                            <span>إجمالي الدخل</span>
+                            <span>إجمالي المصاريف</span>
                         </div>
                     </div>
+
                     <div id="chartContainerWrapper" class="mb-8 relative w-full h-64 flex justify-center items-center">
                         <canvas id="expenseChart"></canvas>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-4">
@@ -192,6 +249,7 @@
                             <span id="chartCenterTotal" class="text-lg font-black font-mono text-red-600 dark:text-red-400" dir="ltr">0</span>
                         </div>
                     </div>
+
                     <div id="statsCategoriesList" class="space-y-3"></div>
                 </div>
             </div>
@@ -203,11 +261,13 @@
                     <i id="icon-home" data-lucide="home" class="w-6 h-6 text-emerald-700 dark:text-blue-400"></i>
                     <span id="text-home" class="text-[10px] mt-1 font-bold text-emerald-700 dark:text-blue-400">الرئيسية</span>
                 </button>
+                
                 <div class="relative -top-6">
                     <button onclick="openAddModal()" id="centerNavBtn" class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg text-white transform rotate-45 border-2 hover:scale-105 active:scale-95 transition bg-emerald-700 border-black dark:bg-[#0F172A] dark:border-slate-700">
                         <i data-lucide="plus" class="w-7 h-7 -rotate-45"></i>
                     </button>
                 </div>
+                
                 <button onclick="switchTab('stats')" class="flex flex-col items-center w-full py-3 transition-colors nav-btn" data-target="stats">
                     <i id="icon-stats" data-lucide="pie-chart" class="w-6 h-6 text-slate-400"></i>
                     <span id="text-stats" class="text-[10px] mt-1 font-bold text-slate-400">تحليل</span>
@@ -222,56 +282,71 @@
                     <i data-lucide="chevron-down" class="w-5 h-5"></i>
                 </button>
             </div>
+            
             <div class="p-6 overflow-y-auto flex-grow hide-scrollbar pb-10">
                 <form id="addTransactionForm" class="space-y-5">
                     <div class="flex p-1 rounded-xl border-2 border-black bg-slate-100 dark:bg-slate-900">
                         <button type="button" id="btnTypeExpense" onclick="setTransactionType('expense')" class="flex-1 py-3 rounded-lg text-sm font-bold transition bg-white text-slate-800 shadow-sm border-2 border-black dark:border-transparent dark:bg-slate-700 dark:text-white">مصروف</button>
                         <button type="button" id="btnTypeIncome" onclick="setTransactionType('income')" class="flex-1 py-3 rounded-lg text-sm font-bold transition text-slate-400 hover:text-slate-600 border-2 border-transparent bg-transparent">دخل</button>
                     </div>
+                    
                     <div class="py-2 text-center relative">
                         <label class="block text-xs font-bold mb-2 text-slate-500 dark:text-slate-400">المبلغ</label>
                         <input type="number" id="txAmount" class="w-full text-5xl sm:text-6xl font-black text-center outline-none bg-transparent font-mono placeholder-slate-300 dark:placeholder-slate-700 text-slate-800 dark:text-white" placeholder="0" required step="0.01" oninput="calculateExchange()">
                         <span id="currencyLabel" class="text-sm font-medium mt-1 block text-emerald-700 dark:text-blue-400">DA</span>
                     </div>
+
                     <div class="flex gap-2 justify-center">
                         <label class="cursor-pointer relative">
                             <input type="radio" name="currency" value="DA" class="peer sr-only currency-radio" checked onchange="handleCurrencyChange()">
-                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">دينار (DA)</div>
+                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">
+                                دينار (DA)
+                            </div>
                         </label>
                         <label class="cursor-pointer relative">
                             <input type="radio" name="currency" value="EUR" class="peer sr-only currency-radio" onchange="handleCurrencyChange()">
-                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">يورو (€)</div>
+                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">
+                                يورو (€)
+                            </div>
                         </label>
                         <label class="cursor-pointer relative">
                             <input type="radio" name="currency" value="USD" class="peer sr-only currency-radio" onchange="handleCurrencyChange()">
-                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">دولار ($)</div>
+                            <div class="px-4 py-1.5 rounded-full border-2 border-black bg-white dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-blue-400 transition-all">
+                                دولار ($)
+                            </div>
                         </label>
                     </div>
+
                     <div id="exchangeRateContainer" class="hidden flex-col gap-3 p-4 rounded-xl border-2 border-black bg-slate-50 dark:bg-slate-800/50">
                         <div class="flex items-center justify-between gap-3">
-                            <label class="text-xs font-bold text-slate-600 dark:text-slate-400 whitespace-nowrap">سعر الصرف:</label>
+                            <label class="text-xs font-bold text-slate-600 dark:text-slate-400 whitespace-nowrap">سعر الصرف (1 <span id="exchangeCurrencyLabel">€</span>):</label>
                             <div class="flex items-center gap-2 flex-1">
-                                <input type="number" id="exchangeRate" class="w-full bg-white dark:bg-[#020617] border-2 border-black rounded-lg p-2 text-sm font-mono text-center outline-none" step="0.01" oninput="calculateExchange()">
+                                <input type="number" id="exchangeRate" class="w-full bg-white dark:bg-[#020617] border-2 border-black rounded-lg p-2 text-sm font-mono text-center outline-none" placeholder="مثال: 240" step="0.01" oninput="calculateExchange()">
+                                <span class="text-xs font-bold text-slate-500">DA</span>
                             </div>
                         </div>
                         <div class="flex justify-between items-center pt-2 border-t border-black/10 dark:border-slate-700">
-                            <span class="text-xs font-bold text-slate-500">المبلغ بالدينار:</span>
+                            <span class="text-xs font-bold text-slate-500">المبلغ النهائي بالدينار:</span>
                             <span id="finalConvertedAmount" class="font-mono font-black text-emerald-700 dark:text-blue-400" dir="ltr">0 DA</span>
                         </div>
                     </div>
+
                     <div class="px-4 py-3 rounded-xl border-2 border-black bg-white dark:bg-[#020617] flex items-center gap-3 shadow-sm mt-4">
                         <i data-lucide="user" class="text-slate-400 w-5 h-5 shrink-0"></i>
-                        <input type="text" id="txEntity" list="entitiesList" class="w-full bg-transparent outline-none font-medium text-sm placeholder-slate-400 text-slate-800 dark:text-white" placeholder="الجهة أو الشخص (اختياري)">
+                        <input type="text" id="txEntity" list="entitiesList" class="w-full bg-transparent outline-none font-medium text-sm placeholder-slate-400 text-slate-800 dark:text-white" placeholder="الجهة أو الشخص (مثال: أحمد، سونلغاز...) اختياري">
                         <datalist id="entitiesList"></datalist>
                     </div>
+
                     <div>
                         <label class="block text-xs font-bold mb-3 px-1 text-slate-500 dark:text-slate-400">التصنيف</label>
                         <div id="categoriesContainer" class="grid grid-cols-3 gap-3"></div>
                     </div>
+
                     <div class="px-4 py-4 rounded-xl border-2 border-black bg-white dark:bg-[#020617] flex items-center gap-3 shadow-sm">
                         <i data-lucide="more-horizontal" class="text-slate-400 w-5 h-5 shrink-0"></i>
-                        <input type="text" id="txDescription" class="w-full bg-transparent outline-none font-medium text-sm placeholder-slate-400 text-slate-800 dark:text-white" placeholder="أضف ملاحظة..." required>
+                        <input type="text" id="txDescription" class="w-full bg-transparent outline-none font-medium text-sm placeholder-slate-400 text-slate-800 dark:text-white" placeholder="أضف ملاحظة (مثال: غداء عمل)..." required>
                     </div>
+
                     <button type="submit" id="submitTxBtn" class="w-full text-white py-4 rounded-xl font-bold text-base shadow-md mt-4 active:scale-95 transition-transform bg-emerald-700 border-2 border-black dark:border-transparent dark:bg-blue-600">
                         حفظ العملية
                     </button>
@@ -291,25 +366,53 @@
                         <i data-lucide="trash-2" class="w-8 h-8 text-red-600 dark:text-red-400"></i>
                     </div>
                     <h3 class="text-xl font-bold text-red-500 mb-2">تأكيد الحذف</h3>
-                    <p class="text-sm opacity-80 mb-6 leading-relaxed">هل أنت متأكد من رغبتك في حذف هذه العملية؟</p>
+                    <p class="text-sm opacity-80 mb-6 leading-relaxed">هل أنت متأكد من رغبتك في حذف هذه العملية بشكل نهائي؟</p>
                     <div class="flex gap-3">
-                        <button onclick="cancelDelete()" class="flex-1 py-3 rounded-xl font-bold border-2 border-black text-slate-800 dark:text-white">إلغاء</button>
-                        <button onclick="processDelete()" class="flex-1 py-3 rounded-xl font-bold text-white bg-red-600 border-2 border-black dark:border-transparent">نعم، احذف</button>
+                        <button onclick="cancelDelete()" class="flex-1 py-3 rounded-xl font-bold border-2 border-black hover:bg-slate-50 dark:hover:bg-slate-700 transition text-slate-800 dark:text-white">إلغاء</button>
+                        <button onclick="processDelete()" class="flex-1 py-3 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 border-2 border-black dark:border-transparent transition shadow-lg shadow-red-500/30">نعم، احذف</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="addCategoryModal" class="modal fixed inset-0 z-[160] items-center justify-center p-6 bg-black/80 backdrop-blur-sm" onclick="closeModalOnOutsideClick(event, 'addCategoryModal')">
+        <div id="settingsModal" class="modal fixed inset-0 z-[150] items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4" onclick="closeModalOnOutsideClick(event, 'settingsModal')">
             <div class="modal-content w-full max-w-xs rounded-3xl p-6 shadow-2xl border-2 border-black bg-white dark:bg-slate-800">
-                <div class="flex justify-between mb-4">
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">إضافة تصنيف جديد</h3>
-                    <button onclick="closeModal('addCategoryModal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <div class="flex justify-between mb-6">
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">الإعدادات</h3>
+                    <button onclick="closeModal('settingsModal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
-                <input type="text" id="newCatName" placeholder="اسم التصنيف..." class="w-full mb-4 border-2 border-black rounded-xl px-4 py-3 text-sm outline-none bg-white dark:bg-[#020617] text-slate-800 dark:text-white" required>
-                <button onclick="saveCustomCategory()" class="w-full py-3 text-white rounded-xl bg-emerald-700 border-2 border-black hover:opacity-90 dark:bg-blue-600 dark:border-transparent font-bold text-sm">
-                    حفظ التصنيف
-                </button>
+                
+                <div class="mb-6 pb-6 border-b-2 border-black/10 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-black dark:border-transparent">
+                            <i data-lucide="user" class="w-5 h-5 text-slate-500 dark:text-slate-400"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-xs font-bold text-slate-500 mb-0.5">مسجل الدخول كـ:</p>
+                            <p id="displayUserEmail" class="text-sm font-bold text-slate-800 dark:text-white truncate" dir="ltr">user@email.com</p>
+                        </div>
+                    </div>
+                    <button id="logoutBtn" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-red-200 bg-red-50 text-red-600 hover:bg-red-100 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 transition font-bold text-sm">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        تسجيل الخروج
+                    </button>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="exportToCSV()" class="w-full flex items-center justify-between p-4 rounded-xl border-2 border-black bg-emerald-50 dark:bg-emerald-500/10 hover:opacity-80 transition">
+                        <div class="flex gap-3 items-center">
+                            <i data-lucide="download" class="text-emerald-700 dark:text-emerald-400 w-5 h-5"></i>
+                            <h4 class="text-emerald-800 dark:text-emerald-400 text-sm font-bold">تصدير البيانات (CSV)</h4>
+                        </div>
+                    </button>
+                    <button onclick="document.getElementById('fileInput').click()" class="w-full flex items-center justify-between p-4 rounded-xl border-2 border-black bg-blue-50 dark:bg-blue-500/10 hover:opacity-80 transition">
+                        <div class="flex gap-3 items-center">
+                            <i data-lucide="upload" class="text-blue-600 dark:text-blue-400 w-5 h-5"></i>
+                            <h4 class="text-blue-700 dark:text-blue-400 text-sm font-bold">استعادة البيانات</h4>
+                        </div>
+                    </button>
+                    <input type="file" id="fileInput" class="hidden" accept=".csv" onchange="handleFileSelect(event)">
+                </div>
             </div>
         </div>
 
@@ -321,23 +424,28 @@
                 </div>
                 <div id="walletsList" class="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1 custom-scrollbar hide-scrollbar"></div>
                 <form id="addWalletForm" class="flex gap-2 pt-4 border-t-2 border-black dark:border-slate-700">
-                    <input type="text" id="newWalletName" placeholder="اسم المحفظة..." class="flex-1 border-2 border-black rounded-xl px-4 text-sm outline-none bg-white dark:bg-[#020617] text-slate-800 dark:text-white" required>
-                    <button type="submit" id="addWalletBtn" class="p-3 text-white rounded-xl bg-emerald-700 border-2 border-black dark:bg-blue-600 dark:border-transparent"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                    <input type="text" id="newWalletName" placeholder="اسم المحفظة الجديدة..." class="flex-1 border-2 border-black rounded-xl px-4 text-sm outline-none bg-white dark:bg-[#020617] text-slate-800 dark:text-white" required>
+                    <button type="submit" id="addWalletBtn" class="p-3 text-white rounded-xl bg-emerald-700 border-2 border-black hover:opacity-90 transition-opacity dark:bg-blue-600 dark:border-transparent">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                    </button>
                 </form>
             </div>
         </div>
-        
-        <div id="settingsModal" class="modal fixed inset-0 z-[150] items-center justify-center bg-black/50 backdrop-blur-sm p-4" onclick="closeModalOnOutsideClick(event, 'settingsModal')">
-             <div class="modal-content w-full max-w-xs rounded-3xl p-6 shadow-2xl border-2 border-black bg-white dark:bg-slate-800">
-                <div class="flex justify-between mb-6">
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">الإعدادات</h3>
-                    <button onclick="closeModal('settingsModal')" class="text-slate-400"><i data-lucide="x" class="w-5 h-5"></i></button>
+
+        <div id="confirmRestoreModal" class="modal fixed inset-0 z-[160] items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
+            <div class="modal-content w-full max-w-sm rounded-3xl p-6 shadow-2xl border-2 border-black bg-white dark:bg-slate-800">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mx-auto mb-4 border border-black/20 dark:border-red-900">
+                        <i data-lucide="alert-triangle" class="w-8 h-8 text-red-600 dark:text-red-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-red-500 mb-2">تحذير الاستعادة!</h3>
+                    <p class="text-sm opacity-80 mb-6 leading-relaxed">سيتم حذف بياناتك الحالية بالكامل واستبدالها بالبيانات الموجودة في الملف. هل أنت متأكد من رغبتك في المتابعة؟</p>
+                    <div class="flex gap-3">
+                        <button onclick="cancelRestore()" class="flex-1 py-3 rounded-xl font-bold border-2 border-black hover:bg-slate-50 dark:hover:bg-slate-700 transition text-slate-800 dark:text-white">إلغاء</button>
+                        <button onclick="processRestore()" class="flex-1 py-3 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 border-2 border-black dark:border-transparent transition shadow-lg shadow-red-500/30">نعم، استبدل</button>
+                    </div>
                 </div>
-                <div class="mb-6 pb-6 border-b-2 border-black/10 dark:border-slate-700">
-                    <p id="displayUserEmail" class="text-sm font-bold mb-4" dir="ltr"></p>
-                    <button id="logoutBtn" class="w-full py-3 rounded-xl border-2 border-red-200 bg-red-50 text-red-600 font-bold text-sm">تسجيل الخروج</button>
-                </div>
-             </div>
+            </div>
         </div>
     </div>
 
@@ -351,46 +459,61 @@
         var currentTxCategory = 'food';
         var analysisPeriod = 'month';
         var statsGroupBy = 'category'; 
+        var pendingFile = null;
+        var expenseChartInstance = null;
         var editingTxId = null;
         var deletingTxId = null;
         var currentCurrency = 'DA';
         var calculatedDZDAmount = 0;
 
-        // --- Custom Categories Logic ---
-        const defaultCategoryConfig = {
+        const today = new Date();
+        document.getElementById('customStartDate').value = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+        document.getElementById('customEndDate').value = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
+
+        const categoryConfig = {
             expense: {
-                food: { name: 'طعام', icon: 'shopping-bag', lightClass: 'bg-orange-100 text-orange-600', darkClass: 'bg-orange-500/20 text-orange-400', hex: '#F97316' },
+                food: { name: 'طعام وتسوق', icon: 'shopping-bag', lightClass: 'bg-orange-100 text-orange-600', darkClass: 'bg-orange-500/20 text-orange-400', hex: '#F97316' },
                 transport: { name: 'مواصلات', icon: 'car', lightClass: 'bg-blue-100 text-blue-600', darkClass: 'bg-blue-500/20 text-blue-400', hex: '#3B82F6' },
+                home: { name: 'منزل', icon: 'home', lightClass: 'bg-indigo-100 text-indigo-600', darkClass: 'bg-indigo-500/20 text-indigo-400', hex: '#6366F1' },
+                bills: { name: 'فواتير', icon: 'zap', lightClass: 'bg-yellow-100 text-yellow-600', darkClass: 'bg-yellow-500/20 text-yellow-400', hex: '#EAB308' },
+                entertainment: { name: 'ترفيه', icon: 'coffee', lightClass: 'bg-pink-100 text-pink-600', darkClass: 'bg-pink-500/20 text-pink-400', hex: '#EC4899' },
                 other: { name: 'أخرى', icon: 'more-horizontal', lightClass: 'bg-slate-200 text-slate-700', darkClass: 'bg-slate-700 text-slate-300', hex: '#64748B' }
             },
             income: {
                 salary: { name: 'راتب', icon: 'briefcase', lightClass: 'bg-emerald-100 text-emerald-600', darkClass: 'bg-emerald-500/20 text-emerald-400', hex: '#10B981' },
+                freelance: { name: 'عمل حر', icon: 'zap', lightClass: 'bg-teal-100 text-teal-600', darkClass: 'bg-teal-500/20 text-teal-400', hex: '#14B8A6' },
+                gift: { name: 'هدية', icon: 'gift', lightClass: 'bg-purple-100 text-purple-600', darkClass: 'bg-purple-500/20 text-purple-400', hex: '#A855F7' },
                 other_income: { name: 'أخرى', icon: 'dollar-sign', lightClass: 'bg-cyan-100 text-cyan-600', darkClass: 'bg-cyan-500/20 text-cyan-400', hex: '#06B6D4' }
             }
         };
 
-        let dynamicCategoryConfig = JSON.parse(JSON.stringify(defaultCategoryConfig));
-        window.customCategories = JSON.parse(localStorage.getItem('masareefi_categories')) || { expense: {}, income: {} };
-
-        function mergeCategories() {
-            dynamicCategoryConfig = JSON.parse(JSON.stringify(defaultCategoryConfig));
-            Object.assign(dynamicCategoryConfig.expense, window.customCategories.expense || {});
-            Object.assign(dynamicCategoryConfig.income, window.customCategories.income || {});
-        }
-        mergeCategories();
-
         function getCatConfig(catId, type) {
-            return dynamicCategoryConfig[type][catId] || dynamicCategoryConfig['expense']['other'];
+            return categoryConfig[type][catId] || categoryConfig['expense']['other'];
+        }
+
+        function formatCurrency(num) {
+            return num.toLocaleString('en-US', { useGrouping: false, minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' DA';
+        }
+        
+        function formatOtherCurrency(num, currency) {
+            const symbols = { 'EUR': '€', 'USD': '$' };
+            return num.toLocaleString('en-US', { useGrouping: false, minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ' + (symbols[currency] || currency);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-GB');
         }
 
         function stringToColor(str) {
             let hash = 0;
-            for (let i = 0; i < str.length; i++) { hash = str.charCodeAt(i) + ((hash << 5) - hash); }
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
             const c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
             return '#' + '00000'.substring(0, 6 - c.length) + c;
         }
 
-        // --- Core Utility Functions ---
         window.syncToFirebase = null;
         window.isUserAuthenticated = false;
 
@@ -400,62 +523,274 @@
             localStorage.setItem('masareefi_wallets', JSON.stringify(wallets));
             localStorage.setItem('masareefi_active_wallet', activeWalletId);
             localStorage.setItem('masareefi_theme', isDarkMode ? 'dark' : 'light');
-            localStorage.setItem('masareefi_categories', JSON.stringify(window.customCategories));
 
             if (typeof window.syncToFirebase === 'function') {
                 window.syncToFirebase({
                     transactions: transactions,
                     wallets: wallets,
-                    activeWalletId: activeWalletId,
-                    categories: window.customCategories
+                    activeWalletId: activeWalletId
                 });
             }
         }
 
-        function showToast(message, isError = false) { /* ... keep your existing logic ... */ }
-        function updateIcons() { lucide.createIcons(); }
-        window.fullRender = fullRender;
-
-        // --- Delete Wallet Logic ---
-        window.deleteWallet = function(id, event) {
-            event.stopPropagation();
-            if(confirm('هل أنت متأكد من حذف هذه المحفظة؟ سيتم نقل جميع عملياتها إلى المحفظة الرئيسية.')) {
-                wallets = wallets.filter(w => w.id !== id);
-                transactions = transactions.map(t => t.walletId === id ? { ...t, walletId: 'main' } : t);
-                if(activeWalletId === id) activeWalletId = 'main';
-                saveStorage();
-                renderWallets();
-                fullRender();
-                showToast('تم حذف المحفظة بنجاح');
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toastMessage');
+            document.getElementById('toastText').innerText = message;
+            const iconWrapper = document.getElementById('toastIconWrapper');
+            
+            if(isError) {
+                toast.classList.replace('bg-slate-800', 'bg-red-800');
+                toast.classList.replace('border-slate-700', 'border-red-700');
+                iconWrapper.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 text-white"></i>';
+            } else {
+                toast.classList.replace('bg-red-800', 'bg-slate-800');
+                toast.classList.replace('border-red-700', 'border-slate-700');
+                iconWrapper.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
             }
-        };
-
-        // --- Create Category Logic ---
-        function openAddCategoryModal() {
-            document.getElementById('newCatName').value = '';
-            openModal('addCategoryModal');
+            
+            updateIcons();
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        function saveCustomCategory() {
-            const name = document.getElementById('newCatName').value.trim();
-            if(!name) return;
-            const catId = 'cat_' + Date.now();
-            const newCat = {
-                name: name,
-                icon: 'tag',
-                lightClass: 'bg-slate-100 text-slate-700',
-                darkClass: 'bg-slate-700 text-slate-300',
-                hex: stringToColor(name)
-            };
-            window.customCategories[currentTxType][catId] = newCat;
-            mergeCategories();
+        function updateIcons() {
+            lucide.createIcons();
+        }
+
+        window.fullRender = fullRender;
+        window.updateIcons = updateIcons;
+        window.showToast = showToast;
+        window.loadLocalData = function() {
+            wallets = JSON.parse(localStorage.getItem('masareefi_wallets')) || [{ id: 'main', name: 'المحفظة الرئيسية' }];
+            activeWalletId = localStorage.getItem('masareefi_active_wallet') || 'main';
+            transactions = JSON.parse(localStorage.getItem('masareefi_transactions')) || [];
+            fullRender();
+        }
+        window.clearLocalData = function() {
+            localStorage.removeItem('masareefi_transactions');
+            localStorage.removeItem('masareefi_wallets');
+            localStorage.removeItem('masareefi_active_wallet');
+            wallets = [{ id: 'main', name: 'المحفظة الرئيسية' }];
+            activeWalletId = 'main';
+            transactions = [];
+        }
+
+        function populateEntitiesList() {
+            const entities = [...new Set(transactions.map(t => t.entity).filter(e => e && e.trim() !== ''))];
+            document.getElementById('entitiesList').innerHTML = entities.map(e => `<option value="${e}">`).join('');
+        }
+
+        function handleCurrencyChange() {
+            const selected = document.querySelector('input[name="currency"]:checked').value;
+            currentCurrency = selected;
+            
+            const symbols = { 'DA': 'DA', 'EUR': '€', 'USD': '$' };
+            document.getElementById('currencyLabel').innerText = symbols[selected];
+            
+            const rateContainer = document.getElementById('exchangeRateContainer');
+            if (selected === 'DA') {
+                rateContainer.classList.add('hidden');
+                rateContainer.classList.remove('flex');
+            } else {
+                rateContainer.classList.remove('hidden');
+                rateContainer.classList.add('flex');
+                document.getElementById('exchangeCurrencyLabel').innerText = symbols[selected];
+                
+                const lastRate = localStorage.getItem(`masareefi_rate_${selected}`);
+                if (lastRate && !editingTxId) {
+                    document.getElementById('exchangeRate').value = lastRate;
+                } else if (!document.getElementById('exchangeRate').value) {
+                    document.getElementById('exchangeRate').value = selected === 'EUR' ? '240' : '220'; 
+                }
+            }
+            calculateExchange();
+        }
+
+        function calculateExchange() {
+            const amountInput = document.getElementById('txAmount').value;
+            const amount = parseFloat(amountInput) || 0;
+            
+            if (currentCurrency === 'DA') {
+                calculatedDZDAmount = amount;
+                return;
+            }
+            
+            const rateInput = document.getElementById('exchangeRate').value;
+            const rate = parseFloat(rateInput) || 0;
+            
+            calculatedDZDAmount = amount * rate;
+            document.getElementById('finalConvertedAmount').innerText = formatCurrency(calculatedDZDAmount);
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function closeModalOnOutsideClick(e, id) {
+            if(e.target.id === id) closeModal(id);
+        }
+
+        function confirmDelete(id, event) {
+            if(event) event.stopPropagation();
+            deletingTxId = id;
+            openModal('confirmDeleteModal');
+        }
+
+        function processDelete() {
+            if (!deletingTxId) return;
+            transactions = transactions.filter(t => t.id !== deletingTxId);
             saveStorage();
-            closeModal('addCategoryModal');
-            selectCategory(catId);
-            showToast('تمت إضافة التصنيف');
+            fullRender();
+            showToast('تم حذف العملية');
+            closeModal('confirmDeleteModal');
+            deletingTxId = null;
         }
 
-        // --- Render Functions Updates ---
+        function cancelDelete() {
+            closeModal('confirmDeleteModal');
+            deletingTxId = null;
+        }
+
+        function openAddModal() {
+            editingTxId = null;
+            document.getElementById('transactionModalTitle').innerText = 'تسجيل عملية جديدة';
+            document.getElementById('submitTxBtn').innerText = 'حفظ العملية';
+
+            document.getElementById('txAmount').value = '';
+            document.getElementById('txDescription').value = '';
+            document.getElementById('txEntity').value = '';
+            document.getElementById('exchangeRate').value = '';
+            document.querySelector('input[name="currency"][value="DA"]').checked = true;
+            handleCurrencyChange();
+            setTransactionType('expense');
+
+            populateEntitiesList();
+
+            const modal = document.getElementById('addTransactionModal');
+            modal.classList.remove('translate-y-full');
+            modal.classList.add('translate-y-0');
+            setTimeout(() => document.getElementById('txAmount').focus(), 300);
+        }
+
+        function openEditModal(id, event) {
+            if (event) event.stopPropagation();
+            
+            const tx = transactions.find(t => t.id === id);
+            if (!tx) return;
+
+            editingTxId = id;
+            document.getElementById('transactionModalTitle').innerText = 'تعديل العملية';
+            document.getElementById('submitTxBtn').innerText = 'تحديث العملية';
+
+            document.getElementById('txAmount').value = tx.originalAmount || tx.amount;
+            document.getElementById('txDescription').value = tx.description;
+            document.getElementById('txEntity').value = tx.entity || '';
+            
+            const currencyToSelect = tx.originalCurrency || 'DA';
+            document.querySelector(`input[name="currency"][value="${currencyToSelect}"]`).checked = true;
+            
+            if (currencyToSelect !== 'DA') {
+                document.getElementById('exchangeRate').value = tx.exchangeRate || '';
+            }
+            
+            handleCurrencyChange(); 
+            setTransactionType(tx.type); 
+            selectCategory(tx.category); 
+
+            populateEntitiesList();
+
+            const modal = document.getElementById('addTransactionModal');
+            modal.classList.remove('translate-y-full');
+            modal.classList.add('translate-y-0');
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('addTransactionModal');
+            modal.classList.add('translate-y-full');
+            modal.classList.remove('translate-y-0');
+            document.activeElement.blur();
+        }
+
+        function renderHeaderAndStats() {
+            const activeWallet = wallets.find(w => w.id === activeWalletId) || wallets[0];
+            document.getElementById('activeWalletName').innerText = activeWallet.name;
+
+            const currentTxns = transactions.filter(t => (t.walletId || 'main') === activeWalletId);
+            const income = currentTxns.filter(t => t.type === 'income').reduce((acc, curr) => acc + curr.amount, 0);
+            const expense = currentTxns.filter(t => t.type === 'expense').reduce((acc, curr) => acc + curr.amount, 0);
+            const balance = income - expense;
+
+            document.getElementById('totalBalance').innerText = formatCurrency(balance);
+            document.getElementById('totalIncome').innerText = formatCurrency(income);
+            document.getElementById('totalExpense').innerText = formatCurrency(expense);
+        }
+
+        function renderTransactions() {
+            const currentTxns = transactions.filter(t => (t.walletId || 'main') === activeWalletId);
+            const list = document.getElementById('transactionsList');
+            const emptyState = document.getElementById('emptyTransactionsState');
+
+            if (currentTxns.length === 0) {
+                list.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            list.innerHTML = currentTxns.sort((a,b) => new Date(b.date) - new Date(a.date)).map(t => {
+                const conf = getCatConfig(t.category, t.type);
+                const isIncome = t.type === 'income';
+                
+                let bgClass;
+                if (isDarkMode) {
+                    bgClass = isIncome ? 'bg-emerald-900/10' : 'bg-red-900/10';
+                } else {
+                    bgClass = isIncome ? 'bg-emerald-50' : 'bg-red-50';
+                }
+                const borderClass = isDarkMode ? 'border-slate-700' : 'border-black';
+                const amountColor = isIncome 
+                    ? (isDarkMode ? 'text-emerald-400' : 'text-emerald-700') 
+                    : (isDarkMode ? 'text-slate-200' : 'text-slate-800');
+                
+                const hasEntity = t.entity && t.entity.trim() !== '';
+                const displayTitle = hasEntity ? t.entity : t.description;
+                
+                let descBadge = '';
+                if (hasEntity) {
+                    descBadge = `<span class="inline-block px-1.5 py-0.5 rounded text-[9px] bg-white/60 dark:bg-black/30 text-slate-700 dark:text-slate-300 ml-1 border border-black/10 dark:border-transparent">${t.description}</span>`;
+                }
+                    
+                let currencyNote = '';
+                if (t.originalCurrency && t.originalCurrency !== 'DA') {
+                    currencyNote = `<p class="text-[9px] text-slate-400 mt-0.5" dir="ltr">${formatOtherCurrency(t.originalAmount, t.originalCurrency)} (Rate: ${t.exchangeRate})</p>`;
+                }
+
+                return `
+                    <div class="p-4 rounded-2xl border-2 ${borderClass} ${bgClass} flex items-center justify-between group hover:-translate-y-1 transition duration-200 shadow-sm cursor-pointer relative overflow-hidden" onclick="openEditModal(${t.id}, event)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full border border-black/10 dark:border-transparent flex items-center justify-center ${isDarkMode ? conf.darkClass : conf.lightClass} shrink-0 bg-white/50 dark:bg-black/20 shadow-sm">
+                                <i data-lucide="${conf.icon}" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm mb-1 text-slate-800 dark:text-white">${displayTitle}</h4>
+                                <p class="text-[10px] font-mono text-slate-500">${conf.name} ${descBadge} • ${formatDate(t.date)}</p>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="block font-bold text-sm font-mono ${amountColor}" dir="ltr">
+                                ${isIncome ? '+' : '-'}${formatCurrency(t.amount)}
+                            </span>
+                            ${currencyNote}
+                            <div class="flex gap-2 justify-end mt-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                                <button onclick="openEditModal(${t.id}, event)" class="text-[10px] font-bold text-blue-600 dark:text-blue-400 px-2 py-1 bg-white dark:bg-blue-500/10 rounded border border-black dark:border-blue-900/50 hover:bg-slate-100 dark:hover:bg-blue-500/20 shadow-sm">تعديل</button>
+                                <button onclick="confirmDelete(${t.id}, event)" class="text-[10px] font-bold text-red-600 dark:text-red-400 px-2 py-1 bg-white dark:bg-red-500/10 rounded border border-black dark:border-red-900/50 hover:bg-slate-100 dark:hover:bg-red-500/20 shadow-sm">حذف</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            updateIcons();
+        }
+
         function renderWallets() {
             const list = document.getElementById('walletsList');
             list.innerHTML = wallets.map(w => {
@@ -463,22 +798,14 @@
                 const activeBorder = isActive ? (isDarkMode ? 'border-blue-500' : 'border-emerald-700') : 'border-black';
                 const activeBg = isActive ? (isDarkMode ? 'bg-blue-500/10' : 'bg-emerald-50') : 'bg-transparent';
                 
-                const deleteBtn = w.id !== 'main' ? `
-                    <button onclick="deleteWallet('${w.id}', event)" class="p-2 ml-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition shrink-0">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>` : '';
-
                 return `
-                    <div class="flex items-center gap-2">
-                        <button onclick="selectWallet('${w.id}')" class="flex-1 flex justify-between p-4 rounded-2xl border-2 ${activeBorder} ${activeBg} transition-colors">
-                            <div class="flex gap-3 items-center">
-                                <i data-lucide="credit-card" class="text-slate-400 w-4 h-4"></i>
-                                <span class="font-bold text-sm">${w.name}</span>
-                            </div>
-                            ${isActive ? `<i data-lucide="check" class="w-4 h-4 text-emerald-700 dark:text-blue-500"></i>` : ''}
-                        </button>
-                        ${deleteBtn}
-                    </div>
+                    <button onclick="selectWallet('${w.id}')" class="w-full flex justify-between p-4 rounded-2xl border-2 ${activeBorder} ${activeBg} transition-colors hover:bg-slate-50 dark:hover:bg-slate-700">
+                        <div class="flex gap-3 items-center">
+                            <i data-lucide="credit-card" class="text-slate-400 w-4 h-4"></i>
+                            <span class="font-bold text-sm text-slate-800 dark:text-white">${w.name}</span>
+                        </div>
+                        ${isActive ? `<i data-lucide="check" class="w-4 h-4 ${isDarkMode ? 'text-blue-500' : 'text-emerald-700'}"></i>` : ''}
+                    </button>
                 `;
             }).join('');
             updateIcons();
@@ -486,40 +813,722 @@
 
         function renderAddCategoryOptions() {
             const container = document.getElementById('categoriesContainer');
-            const categories = Object.keys(dynamicCategoryConfig[currentTxType]);
+            const categories = currentTxType === 'income' 
+                ? ['salary', 'freelance', 'gift', 'other_income']
+                : ['food', 'transport', 'home', 'bills', 'entertainment', 'other'];
 
-            let html = categories.map(catId => {
+            container.innerHTML = categories.map(catId => {
                 const conf = getCatConfig(catId, currentTxType);
                 const isSelected = currentTxCategory === catId;
-                const activeClass = isSelected ? 'bg-emerald-50 border-emerald-700' : 'bg-white border-black';
+                
+                let activeClass, textActive, textInactive, bgInactive;
+                if(isDarkMode) {
+                    activeClass = currentTxType === 'income' ? 'bg-emerald-500/20 border-emerald-500' : 'bg-blue-500/20 border-blue-500';
+                    textActive = currentTxType === 'income' ? 'text-emerald-400' : 'text-blue-400';
+                    textInactive = 'text-slate-400';
+                    bgInactive = 'bg-slate-800 border-slate-700 hover:bg-slate-700';
+                } else {
+                    activeClass = 'bg-emerald-50 border-emerald-700';
+                    textActive = 'text-emerald-700';
+                    textInactive = 'text-slate-400';
+                    bgInactive = 'bg-white border-black hover:bg-slate-50';
+                }
+
                 return `
-                    <button type="button" onclick="selectCategory('${catId}')" class="flex flex-col items-center justify-center p-3 rounded-xl border-2 transition ${activeClass}">
-                        <div class="${isSelected ? 'text-emerald-700' : 'text-slate-400'}"><i data-lucide="${conf.icon}" class="w-5 h-5"></i></div>
-                        <span class="text-[10px] mt-2 font-bold">${conf.name}</span>
+                    <button type="button" onclick="selectCategory('${catId}')" class="flex flex-col items-center justify-center p-3 rounded-xl border-2 transition ${isSelected ? activeClass : bgInactive}">
+                        <div class="${isSelected ? textActive : textInactive}">
+                            <i data-lucide="${conf.icon}" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] mt-2 font-bold ${isSelected ? (isDarkMode ? 'text-slate-200' : 'text-slate-700') : 'text-slate-500'}">${conf.name}</span>
                     </button>
                 `;
             }).join('');
-
-            html += `
-                <button type="button" onclick="openAddCategoryModal()" class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-400 hover:bg-slate-50 transition">
-                    <i data-lucide="plus" class="w-5 h-5"></i>
-                    <span class="text-[10px] mt-2 font-bold">إضافة</span>
-                </button>
-            `;
-            container.innerHTML = html;
             updateIcons();
         }
 
-        // ... (Keep the rest of your original logic for addTransaction, Firebase Sync, etc.) ...
-        
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
-                    console.log('Service Worker Registered!', reg);
-                }).catch(err => console.error('Service Worker Error', err));
+        function setTransactionType(type) {
+            currentTxType = type;
+            if (!editingTxId) {
+                currentTxCategory = type === 'income' ? 'salary' : 'food';
+            }
+            
+            const btnExp = document.getElementById('btnTypeExpense');
+            const btnInc = document.getElementById('btnTypeIncome');
+            const submitBtn = document.getElementById('submitTxBtn');
+            const currencyLabel = document.getElementById('currencyLabel');
+            
+            if(type === 'expense') {
+                btnExp.className = `flex-1 py-3 rounded-lg text-sm font-bold transition bg-white text-slate-800 shadow-sm border-2 border-black dark:border-transparent dark:bg-slate-700 dark:text-white`;
+                btnInc.className = 'flex-1 py-3 rounded-lg text-sm font-bold transition text-slate-400 hover:text-slate-600 border-2 border-transparent bg-transparent';
+                submitBtn.className = `w-full text-white py-4 rounded-xl font-bold text-base shadow-md mt-4 active:scale-95 transition-transform border-2 border-black dark:border-transparent ${isDarkMode ? 'bg-blue-600' : 'bg-emerald-700'}`;
+                currencyLabel.className = `text-sm font-medium mt-1 block ${isDarkMode ? 'text-blue-400' : 'text-emerald-700'}`;
+            } else {
+                btnInc.className = `flex-1 py-3 rounded-lg text-sm font-bold transition bg-white text-emerald-700 shadow-sm border-2 border-black dark:border-transparent dark:bg-emerald-600 dark:text-white`;
+                btnExp.className = 'flex-1 py-3 rounded-lg text-sm font-bold transition text-slate-400 hover:text-slate-600 border-2 border-transparent bg-transparent';
+                submitBtn.className = 'w-full text-white py-4 rounded-xl font-bold text-base shadow-md mt-4 active:scale-95 transition-transform border-2 border-black dark:border-transparent bg-emerald-700';
+                currencyLabel.className = 'text-sm font-medium mt-1 block text-emerald-700';
+            }
+            renderAddCategoryOptions();
+        }
+
+        function selectCategory(catId) {
+            currentTxCategory = catId;
+            renderAddCategoryOptions();
+        }
+
+        document.getElementById('addTransactionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateExchange(); 
+            
+            const originalAmount = parseFloat(document.getElementById('txAmount').value);
+            const description = document.getElementById('txDescription').value.trim();
+            const entity = document.getElementById('txEntity').value.trim();
+            
+            if(!originalAmount || !description) return;
+            
+            let exchangeRate = 1;
+            if (currentCurrency !== 'DA') {
+                exchangeRate = parseFloat(document.getElementById('exchangeRate').value);
+                if (!exchangeRate) {
+                    showToast('يرجى إدخال سعر الصرف', true);
+                    return;
+                }
+                localStorage.setItem(`masareefi_rate_${currentCurrency}`, exchangeRate);
+            }
+
+            if (editingTxId) {
+                const txIndex = transactions.findIndex(t => t.id === editingTxId);
+                if (txIndex !== -1) {
+                    transactions[txIndex] = {
+                        ...transactions[txIndex], 
+                        amount: calculatedDZDAmount, 
+                        originalAmount: originalAmount,
+                        originalCurrency: currentCurrency,
+                        exchangeRate: exchangeRate,
+                        description: description,
+                        entity: entity,
+                        type: currentTxType,
+                        category: currentTxCategory,
+                    };
+                    showToast('تم التحديث بنجاح');
+                }
+            } else {
+                const newTx = {
+                    id: Date.now(),
+                    amount: calculatedDZDAmount, 
+                    originalAmount: originalAmount,
+                    originalCurrency: currentCurrency,
+                    exchangeRate: exchangeRate,
+                    description: description,
+                    entity: entity,
+                    type: currentTxType,
+                    category: currentTxCategory,
+                    date: new Date().toISOString(),
+                    walletId: activeWalletId
+                };
+                transactions.unshift(newTx);
+                showToast('تم الحفظ بنجاح');
+            }
+
+            saveStorage();
+            closeAddModal();
+            
+            if(currentTab !== 'home') {
+                switchTab('home');
+            } else {
+                fullRender();
+            }
+        });
+
+        document.getElementById('addWalletForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('newWalletName');
+            const name = nameInput.value.trim();
+            if(!name) return;
+
+            const newId = 'wallet_' + Date.now();
+            wallets.push({ id: newId, name: name });
+            activeWalletId = newId;
+            
+            nameInput.value = '';
+            saveStorage();
+            renderWallets();
+            closeModal('walletModal');
+            fullRender();
+            showToast('تم إضافة المحفظة');
+        });
+
+        function selectWallet(id) {
+            activeWalletId = id;
+            saveStorage();
+            closeModal('walletModal');
+            fullRender();
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            const activeColor = isDarkMode ? 'text-blue-400' : 'text-emerald-700';
+            const inactiveColor = 'text-slate-400';
+            
+            document.getElementById('icon-home').className = `w-6 h-6 ${tabId === 'home' ? activeColor : inactiveColor}`;
+            document.getElementById('text-home').className = `text-[10px] mt-1 font-bold ${tabId === 'home' ? activeColor : inactiveColor}`;
+            document.getElementById('icon-stats').className = `w-6 h-6 ${tabId === 'stats' ? activeColor : inactiveColor}`;
+            document.getElementById('text-stats').className = `text-[10px] mt-1 font-bold ${tabId === 'stats' ? activeColor : inactiveColor}`;
+
+            if(tabId === 'stats') renderStats();
+            if(tabId === 'home') renderTransactions();
+        }
+
+        function setAnalysisPeriod(period) {
+            analysisPeriod = period;
+            
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.className = 'period-btn flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 border border-transparent bg-transparent';
+            });
+            const activeBtn = document.getElementById(`period-${period}`);
+            activeBtn.className = `period-btn flex-1 py-2 text-xs font-bold rounded-lg transition shadow border-2 border-black dark:border-transparent ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-white text-slate-900'}`;
+            
+            const customDates = document.getElementById('customDateContainer');
+            if(period === 'custom') {
+                customDates.classList.remove('hidden');
+                customDates.classList.add('flex');
+            } else {
+                customDates.classList.add('hidden');
+                customDates.classList.remove('flex');
+            }
+            
+            renderStats();
+        }
+
+        function setStatsGroup(group) {
+            statsGroupBy = group;
+            
+            document.querySelectorAll('.group-btn').forEach(btn => {
+                btn.className = 'group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-white text-slate-600 dark:bg-slate-800 dark:text-slate-300 border-2 border-black dark:border-slate-600';
+            });
+            
+            const activeBtn = document.getElementById(`group-${group}`);
+            if(isDarkMode) {
+                activeBtn.className = 'group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-slate-200 text-slate-900 border-2 border-black';
+            } else {
+                activeBtn.className = 'group-btn whitespace-nowrap px-4 py-1.5 text-xs font-bold rounded-full transition bg-slate-800 text-white border-2 border-black';
+            }
+            
+            renderStats();
+        }
+
+        function renderStats() {
+            if(currentTab !== 'stats') return;
+
+            const currentTxns = transactions.filter(t => (t.walletId || 'main') === activeWalletId);
+            const now = new Date();
+            
+            const filteredTxns = currentTxns.filter(t => {
+                const tDate = new Date(t.date);
+                if (analysisPeriod === 'all') return true;
+                if (analysisPeriod === 'month') return tDate.getMonth() === now.getMonth() && tDate.getFullYear() === now.getFullYear();
+                if (analysisPeriod === 'custom') {
+                    const startStr = document.getElementById('customStartDate').value;
+                    const endStr = document.getElementById('customEndDate').value;
+                    if (!startStr || !endStr) return true;
+                    const start = new Date(startStr); start.setHours(0,0,0,0);
+                    const end = new Date(endStr); end.setHours(23,59,59,999);
+                    return tDate >= start && tDate <= end;
+                }
+                return true;
+            });
+
+            const income = filteredTxns.filter(t => t.type === 'income').reduce((acc, curr) => acc + curr.amount, 0);
+            const expense = filteredTxns.filter(t => t.type === 'expense').reduce((acc, curr) => acc + curr.amount, 0);
+            
+            const statsContent = document.getElementById('statsContent');
+            const emptyState = document.getElementById('emptyStatsState');
+
+            if (income === 0 && expense === 0) {
+                statsContent.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            statsContent.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            const totalCash = income + expense;
+            const incPct = totalCash > 0 ? (income / totalCash) * 100 : 50;
+            const expPct = totalCash > 0 ? (expense / totalCash) * 100 : 50;
+            document.getElementById('incomeBar').style.width = `${incPct}%`;
+            document.getElementById('expenseBar').style.width = `${expPct}%`;
+
+            const aggregatedData = {};
+            
+            filteredTxns.filter(t => t.type === 'expense').forEach(t => {
+                let key, name, icon, colorHex, lightClass, darkClass;
+
+                if (statsGroupBy === 'category') {
+                    key = t.category;
+                    const conf = getCatConfig(key, 'expense');
+                    name = conf.name;
+                    icon = conf.icon;
+                    colorHex = conf.hex;
+                    lightClass = conf.lightClass;
+                    darkClass = conf.darkClass;
+                } else if (statsGroupBy === 'entity') {
+                    key = t.entity && t.entity.trim() !== '' ? t.entity : 'غير محدد';
+                    name = key;
+                    icon = 'users';
+                    colorHex = stringToColor(key);
+                    lightClass = 'bg-slate-200 text-slate-800'; 
+                    darkClass = 'bg-slate-700 text-white';
+                } else if (statsGroupBy === 'currency') {
+                    key = t.originalCurrency || 'DA';
+                    name = key === 'DA' ? 'دينار (DA)' : (key === 'EUR' ? 'يورو (€)' : 'دولار ($)');
+                    icon = 'coins';
+                    if (key === 'DA') { colorHex = '#10B981'; lightClass = 'bg-emerald-100 text-emerald-700'; darkClass = 'bg-emerald-900/30 text-emerald-400'; }
+                    else if (key === 'EUR') { colorHex = '#3B82F6'; lightClass = 'bg-blue-100 text-blue-700'; darkClass = 'bg-blue-900/30 text-blue-400'; }
+                    else { colorHex = '#F59E0B'; lightClass = 'bg-yellow-100 text-yellow-700'; darkClass = 'bg-yellow-900/30 text-yellow-400'; }
+                }
+
+                if (!aggregatedData[key]) {
+                    aggregatedData[key] = { key, name, icon, colorHex, lightClass, darkClass, amount: 0 };
+                }
+                aggregatedData[key].amount += t.amount;
+            });
+
+            const expenseList = Object.values(aggregatedData)
+                .map(item => ({
+                    ...item,
+                    percentage: expense > 0 ? (item.amount / expense) * 100 : 0
+                }))
+                .sort((a, b) => b.amount - a.amount);
+
+            document.getElementById('chartCenterTotal').innerText = formatCurrency(expense);
+            const chartContainer = document.getElementById('chartContainerWrapper');
+            if(expense > 0) {
+                chartContainer.classList.remove('hidden');
+                chartContainer.classList.add('flex');
+                initChart(expenseList);
+            } else {
+                chartContainer.classList.add('hidden');
+                chartContainer.classList.remove('flex');
+            }
+
+            const listHtml = expenseList.map(item => {
+                const colorClass = isDarkMode ? item.darkClass : item.lightClass;
+                return `
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center ${colorClass} bg-opacity-20 border border-black/10 dark:border-transparent">
+                                    <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+                                </div>
+                                <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${item.name}</span>
+                            </div>
+                            <div class="text-right"><span class="block text-xs font-bold font-mono text-slate-800 dark:text-white" dir="ltr">${formatCurrency(item.amount)}</span></div>
+                        </div>
+                        <div class="h-1.5 w-full rounded-full overflow-hidden border border-black/10 dark:border-transparent bg-slate-100 dark:bg-slate-800">
+                            <div class="h-full rounded-full transition-all duration-1000" style="width: ${item.percentage}%; background-color: ${item.colorHex}"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('statsCategoriesList').innerHTML = listHtml;
+            updateIcons();
+        }
+
+        function initChart(dataList) {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            
+            if (expenseChartInstance) {
+                expenseChartInstance.destroy();
+            }
+
+            const labels = dataList.map(d => d.name);
+            const data = dataList.map(d => d.amount);
+            const bgColors = dataList.map(d => d.colorHex);
+
+            expenseChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: bgColors,
+                        borderWidth: isDarkMode ? 2 : 2,
+                        borderColor: isDarkMode ? '#1E293B' : '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + formatCurrency(context.raw);
+                                }
+                            },
+                            bodyFont: { family: 'Tajawal', size: 14 },
+                            rtl: true
+                        }
+                    }
+                }
             });
         }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            saveStorage();
+            applyTheme();
+            renderAddCategoryOptions(); 
+            if(currentTab === 'stats') {
+                setAnalysisPeriod(analysisPeriod);
+                setStatsGroup(statsGroupBy);
+            }
+            renderWallets();
+            renderTransactions();
+        }
+
+        function applyTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            const authThemeIcon = document.getElementById('authThemeIcon');
+            const mainHeader = document.getElementById('mainHeader');
+            
+            if(isDarkMode) {
+                html.classList.add('dark');
+                if(themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+                if(authThemeIcon) authThemeIcon.setAttribute('data-lucide', 'sun');
+                if(mainHeader) mainHeader.className = "relative pt-4 pb-10 px-6 rounded-b-3xl shadow-sm overflow-hidden bg-slate-800 border-b-2 border-black transition-colors duration-300";
+            } else {
+                html.classList.remove('dark');
+                if(themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
+                if(authThemeIcon) authThemeIcon.setAttribute('data-lucide', 'moon');
+                if(mainHeader) mainHeader.className = "relative pt-4 pb-10 px-6 rounded-b-3xl shadow-sm overflow-hidden bg-emerald-700 border-b-2 border-black transition-colors duration-300";
+            }
+            updateIcons();
+        }
+
+        function exportToCSV() {
+            if (transactions.length === 0) { showToast('لا توجد بيانات للتصدير', true); return; }
+            const headers = ['ID', 'التاريخ', 'الوصف', 'المبلغ_دينار', 'العملة_الاصلية', 'المبلغ_الاصلي', 'سعر_الصرف', 'النوع', 'التصنيف', 'رقم_المحفظة', 'الجهة'];
+            const rows = transactions.map(t => [
+                t.id, 
+                new Date(t.date).toLocaleDateString('en-GB'), 
+                `"${t.description.replace(/"/g, '""')}"`, 
+                t.amount,
+                t.originalCurrency || 'DA',
+                t.originalAmount || t.amount,
+                t.exchangeRate || 1,
+                t.type === 'income' ? 'دخل' : 'مصروف', 
+                getCatConfig(t.category, t.type).name, 
+                t.walletId || 'main',
+                `"${(t.entity || '').replace(/"/g, '""')}"`
+            ]);
+            
+            const csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.map(e => e.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Masareefi_Backup_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click(); 
+            showToast('جاري التحميل...');
+            closeModal('settingsModal');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            pendingFile = file;
+            openModal('confirmRestoreModal');
+            event.target.value = ''; 
+        }
+
+        function cancelRestore() {
+            closeModal('confirmRestoreModal');
+            pendingFile = null;
+        }
+
+        function processRestore() {
+            if (!pendingFile) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const rows = e.target.result.split('\n').filter(row => row.trim() !== '');
+                    rows.shift(); 
+                    const newTxns = rows.map(row => {
+                        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(s => s.replace(/^"|"$/g, '').trim());
+                        return {
+                            id: Date.now() + Math.random(), 
+                            date: new Date().toISOString(), 
+                            description: cols[2] || 'استيراد',
+                            amount: parseFloat(cols[3]) || 0, 
+                            originalCurrency: cols[4] || 'DA',
+                            originalAmount: parseFloat(cols[5]) || parseFloat(cols[3]) || 0,
+                            exchangeRate: parseFloat(cols[6]) || 1,
+                            type: cols[7] === 'دخل' ? 'income' : 'expense', 
+                            category: 'other', 
+                            walletId: cols[9] || activeWalletId,
+                            entity: cols[10] || ''
+                        };
+                    });
+                    transactions = newTxns;
+                    saveStorage();
+                    closeModal('confirmRestoreModal');
+                    closeModal('settingsModal');
+                    fullRender();
+                    showToast('تمت الاستعادة بنجاح');
+                } catch (err) { 
+                    showToast('خطأ في قراءة الملف', true); 
+                }
+            };
+            reader.readAsText(pendingFile);
+        }
+
+        function fullRender() {
+            renderHeaderAndStats();
+            renderTransactions();
+            renderWallets();
+            if(currentTab === 'stats') {
+                setStatsGroup(statsGroupBy);
+            }
+        }
+
+        window.onload = () => {
+            applyTheme();
+            handleCurrencyChange();
+            updateIcons();
+
+            const bottomNav = document.getElementById('bottomNav');
+            document.body.addEventListener('focusin', (e) => {
+                if (e.target.tagName === 'INPUT') {
+                    bottomNav.classList.add('hidden');
+                }
+            });
+            
+            document.body.addEventListener('focusout', (e) => {
+                if (e.target.tagName === 'INPUT') {
+                    setTimeout(() => {
+                        bottomNav.classList.remove('hidden');
+                    }, 100);
+                }
+            });
+        };
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqqQIey88U8Aqz3Jb_-sXIudzrEzPZPnI",
+            authDomain: "masarifi-4e451.firebaseapp.com",
+            projectId: "masarifi-4e451",
+            storageBucket: "masarifi-4e451.firebasestorage.app",
+            messagingSenderId: "792484875097",
+            appId: "1:792484875097:web:682b440c31ef001c121a48"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUserUid = null;
+        let unsubscribeSnapshot = null;
+
+        const cloudIcon = document.getElementById('cloudIcon');
+        const authOverlay = document.getElementById('authOverlay');
+        const mainAppContainer = document.getElementById('mainAppContainer');
+
+        function updateOnlineStatus() {
+            if (!cloudIcon) return;
+            if (navigator.onLine) {
+                cloudIcon.classList.remove('text-red-400', 'text-white/50', 'animate-pulse');
+                cloudIcon.classList.add('text-emerald-400');
+            } else {
+                cloudIcon.classList.remove('text-emerald-400', 'text-white/50', 'animate-pulse');
+                cloudIcon.classList.add('text-red-400');
+            }
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserUid = user.uid;
+                window.isUserAuthenticated = true;
+                
+                authOverlay.classList.add('hidden');
+                mainAppContainer.classList.remove('hidden');
+                document.getElementById('displayUserEmail').innerText = user.email;
+                
+                window.loadLocalData();
+                setupFirebaseSync(user.uid);
+            } else {
+                currentUserUid = null;
+                window.isUserAuthenticated = false;
+                
+                if (unsubscribeSnapshot) {
+                    unsubscribeSnapshot();
+                    unsubscribeSnapshot = null;
+                }
+
+                window.clearLocalData();
+                
+                authOverlay.classList.remove('hidden');
+                mainAppContainer.classList.add('hidden');
+            }
+        });
+
+        function setupFirebaseSync(uid) {
+            const userDocRef = doc(db, 'users', uid);
+            let isInitialLoad = true;
+
+            unsubscribeSnapshot = onSnapshot(userDocRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.data();
+                    
+                    window.transactions = data.transactions || [];
+                    window.wallets = data.wallets || [{ id: 'main', name: 'المحفظة الرئيسية' }];
+                    window.activeWalletId = data.activeWalletId || 'main';
+
+                    localStorage.setItem('masareefi_transactions', JSON.stringify(window.transactions));
+                    localStorage.setItem('masareefi_wallets', JSON.stringify(window.wallets));
+                    localStorage.setItem('masareefi_active_wallet', window.activeWalletId);
+
+                    window.fullRender();
+                } else if (isInitialLoad && window.transactions.length > 0) {
+                    if (navigator.onLine) {
+                        window.syncToFirebase({
+                            transactions: window.transactions,
+                            wallets: window.wallets,
+                            activeWalletId: window.activeWalletId
+                        });
+                    }
+                }
+                isInitialLoad = false;
+            }, (error) => {
+                console.error("Firebase listen error:", error);
+                if(cloudIcon) {
+                    cloudIcon.classList.remove('text-emerald-400', 'animate-pulse', 'text-white/50');
+                    cloudIcon.classList.add('text-red-400');
+                }
+            });
+
+            window.syncToFirebase = function(dataToSync) {
+                if (!navigator.onLine || !currentUserUid) return;
+
+                if(cloudIcon) {
+                    cloudIcon.classList.remove('text-emerald-400', 'text-red-400');
+                    cloudIcon.classList.add('text-white/50', 'animate-pulse');
+                }
+                
+                setDoc(userDocRef, {
+                    ...dataToSync,
+                    lastUpdated: new Date().toISOString()
+                }, { merge: true })
+                .then(() => {
+                    if(cloudIcon) {
+                        cloudIcon.classList.remove('text-white/50', 'animate-pulse', 'text-red-400');
+                        cloudIcon.classList.add('text-emerald-400');
+                    }
+                })
+                .catch((error) => {
+                    console.error("Firebase save error:", error);
+                    if(cloudIcon) {
+                        cloudIcon.classList.remove('text-emerald-400', 'animate-pulse', 'text-white/50');
+                        cloudIcon.classList.add('text-red-400');
+                    }
+                });
+            };
+        }
+
+        let isLoginMode = true;
+        const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
+        const authTitle = document.getElementById('authTitle');
+        const authSubmitBtnSpan = document.querySelector('#authSubmitBtn span');
+        const authForm = document.getElementById('authForm');
+        const authSpinner = document.getElementById('authSpinner');
+
+        toggleAuthModeBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                authTitle.innerText = 'تسجيل الدخول';
+                authSubmitBtnSpan.innerText = 'دخول';
+                toggleAuthModeBtn.innerHTML = 'ليس لديك حساب؟ <span class="text-emerald-700 dark:text-blue-400">إنشاء حساب جديد</span>';
+            } else {
+                authTitle.innerText = 'إنشاء حساب جديد';
+                authSubmitBtnSpan.innerText = 'إنشاء الحساب';
+                toggleAuthModeBtn.innerHTML = 'لديك حساب بالفعل؟ <span class="text-emerald-700 dark:text-blue-400">تسجيل الدخول</span>';
+            }
+        });
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            
+            if (!email || !password) return;
+
+            authSubmitBtnSpan.innerText = 'جاري المعالجة...';
+            authSpinner.classList.remove('hidden');
+            document.getElementById('authSubmitBtn').disabled = true;
+
+            const authPromise = isLoginMode 
+                ? signInWithEmailAndPassword(auth, email, password)
+                : createUserWithEmailAndPassword(auth, email, password);
+
+            authPromise.then((userCredential) => {
+                authSpinner.classList.add('hidden');
+                document.getElementById('authSubmitBtn').disabled = false;
+                authForm.reset();
+                window.showToast('تم تسجيل الدخول بنجاح');
+            }).catch((error) => {
+                authSpinner.classList.add('hidden');
+                document.getElementById('authSubmitBtn').disabled = false;
+                authSubmitBtnSpan.innerText = isLoginMode ? 'دخول' : 'إنشاء الحساب';
+                
+                let errorMsg = 'حدث خطأ. حاول مرة أخرى.';
+                if(error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') errorMsg = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+                if(error.code === 'auth/email-already-in-use') errorMsg = 'البريد الإلكتروني مسجل بالفعل';
+                if(error.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة جداً (يجب أن تكون 6 أحرف على الأقل)';
+                
+                window.showToast(errorMsg, true);
+            });
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                document.getElementById('settingsModal').classList.remove('active');
+                window.showToast('تم تسجيل الخروج');
+            }).catch((error) => {
+                window.showToast('حدث خطأ أثناء تسجيل الخروج', true);
+            });
+        });
+
     </script>
 </body>
 </html>
